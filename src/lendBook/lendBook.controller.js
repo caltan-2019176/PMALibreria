@@ -27,12 +27,12 @@ export const addLendBook = async (req, res) => {
 
 export const returnBook = async (req, res) => {
     try {
-        const id = req.params
-        const lend = await LendBook.findById(id)
+        const id = req.params.id
+        const lend = await LendBook.findOne({_id: id})
         if (!lend) return res.status(404).send({ message: 'Lend not found' })
         if (lend.lend === 'false') return res.status(400).send({ message: 'Book already returned' })
         lend.lend = 'false'
-        lend.date = new Date()
+       // lend.date = new Date()
         await lend.save()
         return res.send({ message: 'Book returned successfully' })
     } catch (error) {
